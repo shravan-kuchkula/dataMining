@@ -1,0 +1,4396 @@
+
+# Creating dummy variables
+
+
+```python
+import pandas as pd
+```
+
+
+```python
+train = pd.read_csv('http://bit.ly/kaggletrain')
+```
+
+
+```python
+train.head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+Let's say that we want to create a dummy variable for the `Sex` column. Currently it is specified as an object column because it is represented as strings. 
+
+One way to do this is by using the Series `map` method. 
+
+
+```python
+train['Sex_male'] = train.Sex.map({'male':1, 'female':0})
+```
+
+
+```python
+train.head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+      <th>Sex_male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+As you can see now we have created a new column called `Sex_male` by using the map function.
+
+So, this is one way of doing it. But there is a more flexible way of doing this. For doing this, I am going to show you how to use a top-level (by this i mean the pd level function)
+
+
+```python
+pd.get_dummies(train.Sex)
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>female</th>
+      <th>male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 2 columns</p>
+</div>
+
+
+
+And what this does is create one column for every possible value. So there are 2 possible values: male and female. Now generally speaking, if you have `k` levels for a categorical variable you use `k-1` dummy variables to represent it. In other words, we have two possible values for our categorical variable `Sex`, so we need have one dummy variable to represent it. That is, we need drop 1 column from this which becomes our reference level.
+
+
+```python
+pd.get_dummies(train.Sex).iloc[:,1:]
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 1 columns</p>
+</div>
+
+
+
+There is one more thing to do, becuase I want to add this column back to the original dataframe, I need to know where it came from. So in order to do that, I need to add `prefix=Sex`. 
+
+
+```python
+pd.get_dummies(train.Sex, prefix='Sex').iloc[:,1:]
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex_male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 1 columns</p>
+</div>
+
+
+
+When we do this, notice how it adds the prefix, that is, it added `Sex_` to the level. It puts the underscore by default. Now, if you compare this with what we did above with the map function, you will notice that it is the same result.
+
+This seems like more work than using the map function. But I want to show you how using this is more flexible.
+
+Now, let use the get_dummies for a categorical variable which has more than 2 possible levels.
+
+For instance, there is variable called `Embarked`.
+
+
+```python
+train.Embarked.value_counts()
+```
+
+
+
+
+    S    644
+    C    168
+    Q     77
+    Name: Embarked, dtype: int64
+
+
+
+
+```python
+pd.get_dummies(train.Embarked, prefix='Embarked')
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Embarked_C</th>
+      <th>Embarked_Q</th>
+      <th>Embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 3 columns</p>
+</div>
+
+
+
+
+```python
+pd.get_dummies(train.Embarked, prefix='Embarked').iloc[:,1:]
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Embarked_Q</th>
+      <th>Embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 2 columns</p>
+</div>
+
+
+
+Now we dropped the C column and established it as our baseline.
+
+The last step is to attach this back to the original dataframe. But before that lets save it.
+
+
+```python
+embarked_dummies = pd.get_dummies(train.Embarked, prefix='Embarked').iloc[:,1:]
+```
+
+Next, I am going to use another top-level function called `concat`. Which takes a list of dataframes and the axis along which to merge them.
+
+
+```python
+pd.concat([train, embarked_dummies], axis=1).head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+      <th>Sex_male</th>
+      <th>Embarked_Q</th>
+      <th>Embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+train = pd.concat([train, embarked_dummies], axis=1)
+train.head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+      <th>Sex_male</th>
+      <th>Embarked_Q</th>
+      <th>Embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+Let's reset the data frame to illustrate how to pass a dataframe to `pd.get_dummies()` instead of passing a Series.
+
+
+```python
+train = pd.read_csv('http://bit.ly/kaggletrain')
+train.head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+pd.get_dummies(train, columns=['Sex', 'Embarked'])
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+      <th>Embarked_C</th>
+      <th>Embarked_Q</th>
+      <th>Embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Moran, Mr. James</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330877</td>
+      <td>8.4583</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>0</td>
+      <td>1</td>
+      <td>McCarthy, Mr. Timothy J</td>
+      <td>54.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17463</td>
+      <td>51.8625</td>
+      <td>E46</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Master. Gosta Leonard</td>
+      <td>2.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Nasser, Mrs. Nicholas (Adele Achem)</td>
+      <td>14.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>237736</td>
+      <td>30.0708</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Sandstrom, Miss. Marguerite Rut</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>PP 9549</td>
+      <td>16.7000</td>
+      <td>G6</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Bonnell, Miss. Elizabeth</td>
+      <td>58.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113783</td>
+      <td>26.5500</td>
+      <td>C103</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Saundercock, Mr. William Henry</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>A/5. 2151</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Andersson, Mr. Anders Johan</td>
+      <td>39.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347082</td>
+      <td>31.2750</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vestrom, Miss. Hulda Amanda Adolfina</td>
+      <td>14.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>350406</td>
+      <td>7.8542</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Hewlett, Mrs. (Mary D Kingcome)</td>
+      <td>55.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>248706</td>
+      <td>16.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Master. Eugene</td>
+      <td>2.0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Williams, Mr. Charles Eugene</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>244373</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Planke, Mrs. Julius (Emelia Maria Vande...</td>
+      <td>31.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>345763</td>
+      <td>18.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Masselmani, Mrs. Fatima</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2649</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>21</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Fynney, Mr. Joseph J</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239865</td>
+      <td>26.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>22</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Beesley, Mr. Lawrence</td>
+      <td>34.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>248698</td>
+      <td>13.0000</td>
+      <td>D56</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>23</td>
+      <td>1</td>
+      <td>3</td>
+      <td>McGowan, Miss. Anna "Annie"</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330923</td>
+      <td>8.0292</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>24</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Sloper, Mr. William Thompson</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113788</td>
+      <td>35.5000</td>
+      <td>A6</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>25</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Miss. Torborg Danira</td>
+      <td>8.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>26</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Asplund, Mrs. Carl Oscar (Selma Augusta Emilia...</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347077</td>
+      <td>31.3875</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>27</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Emir, Mr. Farred Chehab</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2631</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>19.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>29</td>
+      <td>1</td>
+      <td>3</td>
+      <td>O'Dwyer, Miss. Ellen "Nellie"</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330959</td>
+      <td>7.8792</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>30</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Todoroff, Mr. Lalio</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349216</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>862</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Giles, Mr. Frederick Edward</td>
+      <td>21.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>28134</td>
+      <td>11.5000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>863</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Swift, Mrs. Frederick Joel (Margaret Welles Ba...</td>
+      <td>48.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17466</td>
+      <td>25.9292</td>
+      <td>D17</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>864</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Sage, Miss. Dorothy Edith "Dolly"</td>
+      <td>NaN</td>
+      <td>8</td>
+      <td>2</td>
+      <td>CA. 2343</td>
+      <td>69.5500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>865</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Gill, Mr. John William</td>
+      <td>24.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>233866</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>866</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Bystrom, Mrs. (Karolina)</td>
+      <td>42.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>236852</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>867</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Duran y More, Miss. Asuncion</td>
+      <td>27.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>SC/PARIS 2149</td>
+      <td>13.8583</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>868</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Roebling, Mr. Washington Augustus II</td>
+      <td>31.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17590</td>
+      <td>50.4958</td>
+      <td>A24</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>869</td>
+      <td>0</td>
+      <td>3</td>
+      <td>van Melkebeke, Mr. Philemon</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>345777</td>
+      <td>9.5000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>870</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Master. Harold Theodor</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>871</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Balkic, Mr. Cerin</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349248</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>872</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Beckwith, Mrs. Richard Leonard (Sallie Monypeny)</td>
+      <td>47.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11751</td>
+      <td>52.5542</td>
+      <td>D35</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>873</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Carlsson, Mr. Frans Olof</td>
+      <td>33.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>695</td>
+      <td>5.0000</td>
+      <td>B51 B53 B55</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>874</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Cruyssen, Mr. Victor</td>
+      <td>47.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>345765</td>
+      <td>9.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>875</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Abelson, Mrs. Samuel (Hannah Wizosky)</td>
+      <td>28.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>P/PP 3381</td>
+      <td>24.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>876</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Najib, Miss. Adele Kiamie "Jane"</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2667</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>877</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Gustafsson, Mr. Alfred Ossian</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7534</td>
+      <td>9.8458</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>878</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Petroff, Mr. Nedelio</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349212</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>879</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Laleff, Mr. Kristo</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349217</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>880</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Potter, Mrs. Thomas Jr (Lily Alexenia Wilson)</td>
+      <td>56.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>11767</td>
+      <td>83.1583</td>
+      <td>C50</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>881</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Shelley, Mrs. William (Imanita Parrish Hall)</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>230433</td>
+      <td>26.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>882</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Markun, Mr. Johann</td>
+      <td>33.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349257</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>883</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dahlberg, Miss. Gerda Ulrika</td>
+      <td>22.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7552</td>
+      <td>10.5167</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>884</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Banfield, Mr. Frederick James</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>C.A./SOTON 34068</td>
+      <td>10.5000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>885</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Sutehall, Mr. Henry Jr</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>SOTON/OQ 392076</td>
+      <td>7.0500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>886</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Mrs. William (Margaret Norton)</td>
+      <td>39.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>887</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Montvila, Rev. Juozas</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211536</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>888</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Miss. Margaret Edith</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112053</td>
+      <td>30.0000</td>
+      <td>B42</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>889</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>2</td>
+      <td>W./C. 6607</td>
+      <td>23.4500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>890</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Behr, Mr. Karl Howell</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>111369</td>
+      <td>30.0000</td>
+      <td>C148</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>891</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dooley, Mr. Patrick</td>
+      <td>32.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>370376</td>
+      <td>7.7500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 15 columns</p>
+</div>
+
+
+
+When you do that, you will notice that it will drop the original columns `Sex` and `Embarked`, but notice how it keeps all the k levels. We have to pass it another argument to drop the first column of each level.
+
+
+```python
+pd.get_dummies(train, columns=['Sex', 'Embarked'], drop_first=True)
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Sex_male</th>
+      <th>Embarked_Q</th>
+      <th>Embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Moran, Mr. James</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330877</td>
+      <td>8.4583</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>0</td>
+      <td>1</td>
+      <td>McCarthy, Mr. Timothy J</td>
+      <td>54.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17463</td>
+      <td>51.8625</td>
+      <td>E46</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Master. Gosta Leonard</td>
+      <td>2.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Nasser, Mrs. Nicholas (Adele Achem)</td>
+      <td>14.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>237736</td>
+      <td>30.0708</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Sandstrom, Miss. Marguerite Rut</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>PP 9549</td>
+      <td>16.7000</td>
+      <td>G6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Bonnell, Miss. Elizabeth</td>
+      <td>58.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113783</td>
+      <td>26.5500</td>
+      <td>C103</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Saundercock, Mr. William Henry</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>A/5. 2151</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Andersson, Mr. Anders Johan</td>
+      <td>39.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347082</td>
+      <td>31.2750</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vestrom, Miss. Hulda Amanda Adolfina</td>
+      <td>14.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>350406</td>
+      <td>7.8542</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Hewlett, Mrs. (Mary D Kingcome)</td>
+      <td>55.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>248706</td>
+      <td>16.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Master. Eugene</td>
+      <td>2.0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Williams, Mr. Charles Eugene</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>244373</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Planke, Mrs. Julius (Emelia Maria Vande...</td>
+      <td>31.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>345763</td>
+      <td>18.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Masselmani, Mrs. Fatima</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2649</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>21</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Fynney, Mr. Joseph J</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239865</td>
+      <td>26.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>22</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Beesley, Mr. Lawrence</td>
+      <td>34.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>248698</td>
+      <td>13.0000</td>
+      <td>D56</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>23</td>
+      <td>1</td>
+      <td>3</td>
+      <td>McGowan, Miss. Anna "Annie"</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330923</td>
+      <td>8.0292</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>24</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Sloper, Mr. William Thompson</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113788</td>
+      <td>35.5000</td>
+      <td>A6</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>25</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Miss. Torborg Danira</td>
+      <td>8.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>26</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Asplund, Mrs. Carl Oscar (Selma Augusta Emilia...</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347077</td>
+      <td>31.3875</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>27</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Emir, Mr. Farred Chehab</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2631</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>19.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>29</td>
+      <td>1</td>
+      <td>3</td>
+      <td>O'Dwyer, Miss. Ellen "Nellie"</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330959</td>
+      <td>7.8792</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>30</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Todoroff, Mr. Lalio</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349216</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>862</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Giles, Mr. Frederick Edward</td>
+      <td>21.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>28134</td>
+      <td>11.5000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>863</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Swift, Mrs. Frederick Joel (Margaret Welles Ba...</td>
+      <td>48.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17466</td>
+      <td>25.9292</td>
+      <td>D17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>864</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Sage, Miss. Dorothy Edith "Dolly"</td>
+      <td>NaN</td>
+      <td>8</td>
+      <td>2</td>
+      <td>CA. 2343</td>
+      <td>69.5500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>865</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Gill, Mr. John William</td>
+      <td>24.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>233866</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>866</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Bystrom, Mrs. (Karolina)</td>
+      <td>42.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>236852</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>867</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Duran y More, Miss. Asuncion</td>
+      <td>27.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>SC/PARIS 2149</td>
+      <td>13.8583</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>868</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Roebling, Mr. Washington Augustus II</td>
+      <td>31.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17590</td>
+      <td>50.4958</td>
+      <td>A24</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>869</td>
+      <td>0</td>
+      <td>3</td>
+      <td>van Melkebeke, Mr. Philemon</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>345777</td>
+      <td>9.5000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>870</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Master. Harold Theodor</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>871</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Balkic, Mr. Cerin</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349248</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>872</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Beckwith, Mrs. Richard Leonard (Sallie Monypeny)</td>
+      <td>47.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11751</td>
+      <td>52.5542</td>
+      <td>D35</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>873</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Carlsson, Mr. Frans Olof</td>
+      <td>33.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>695</td>
+      <td>5.0000</td>
+      <td>B51 B53 B55</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>874</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Cruyssen, Mr. Victor</td>
+      <td>47.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>345765</td>
+      <td>9.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>875</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Abelson, Mrs. Samuel (Hannah Wizosky)</td>
+      <td>28.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>P/PP 3381</td>
+      <td>24.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>876</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Najib, Miss. Adele Kiamie "Jane"</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2667</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>877</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Gustafsson, Mr. Alfred Ossian</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7534</td>
+      <td>9.8458</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>878</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Petroff, Mr. Nedelio</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349212</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>879</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Laleff, Mr. Kristo</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349217</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>880</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Potter, Mrs. Thomas Jr (Lily Alexenia Wilson)</td>
+      <td>56.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>11767</td>
+      <td>83.1583</td>
+      <td>C50</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>881</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Shelley, Mrs. William (Imanita Parrish Hall)</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>230433</td>
+      <td>26.0000</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>882</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Markun, Mr. Johann</td>
+      <td>33.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349257</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>883</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dahlberg, Miss. Gerda Ulrika</td>
+      <td>22.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7552</td>
+      <td>10.5167</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>884</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Banfield, Mr. Frederick James</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>C.A./SOTON 34068</td>
+      <td>10.5000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>885</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Sutehall, Mr. Henry Jr</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>SOTON/OQ 392076</td>
+      <td>7.0500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>886</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Mrs. William (Margaret Norton)</td>
+      <td>39.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>887</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Montvila, Rev. Juozas</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211536</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>888</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Miss. Margaret Edith</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112053</td>
+      <td>30.0000</td>
+      <td>B42</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>889</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>2</td>
+      <td>W./C. 6607</td>
+      <td>23.4500</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>890</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Behr, Mr. Karl Howell</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>111369</td>
+      <td>30.0000</td>
+      <td>C148</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>891</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dooley, Mr. Patrick</td>
+      <td>32.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>370376</td>
+      <td>7.7500</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 13 columns</p>
+</div>
+
+
+
+`drop_first=True` will drop the first level.
+
+So we have accomplished all in 1 line, instead of using iloc and concat.
