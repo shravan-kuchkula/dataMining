@@ -1,0 +1,94 @@
+---
+title: "Logistic Regression"
+author: "Shravan Kuchkula"
+date: "11/14/2017"
+output:
+  github_document:
+    toc: yes
+  html_document:
+    keep_md: yes
+    theme: cosmo
+    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
+---
+
+## Introduction
+
+```{r message=FALSE, warning=FALSE}
+# Load all the libraries
+installRequiredPackages <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[,"Package"])]
+  if (length(new.pkg))
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+libs <- c("dplyr", "tidyr", "ggplot2",
+          "magrittr", "markdown", "knitr", "yaml",
+           "broom", "aod")
+
+installRequiredPackages(libs)
+```
+
+
+```{r}
+#import required libraries
+pacman::p_load(pacman,XML)
+
+#base URl
+ubase = "http://www.cherryblossom.org/"
+```
+
+```{r}
+##############################################
+#Function to Extract the data                #
+##############################################
+
+extractResTable =
+  #
+  # Retrieve data from web site, 
+  # find the preformatted text,
+  # and write lines or return as a character vector.
+  #
+  function(url = "http://www.cherryblossom.org/results/2009/09cucb-F.htm",
+           year = 1999, sex = "male", file = NULL)
+  {
+    doc = htmlParse(url)
+
+    if (year == 2000) {
+      # Get preformatted text from 4th font element
+      # The top file is ill formed so the <pre> search doesn't work.
+      ff = getNodeSet(doc, "//font")
+      txt = xmlValue(ff[[4]])
+      els = strsplit(txt, "\r\n")[[1]]
+    }
+    else if (year == 2009 & sex == "male") {
+      # Get preformatted text from <div class="Section1"> element
+      # Each line of results is in a <pre> element
+      div1 = getNodeSet(doc, "//div[@class='Section1']")
+      pres = getNodeSet(div1[[1]], "//pre")
+      els = sapply(pres, xmlValue)
+    }
+     else if (year == 1999) {
+               # Get preformatted text from <pre> elements
+      pres = getNodeSet(doc, "//pre")
+      txt = xmlValue(pres[[1]])
+      els = strsplit(txt, "\n")[[1]]  
+     } 
+    else {
+      # Get preformatted text from <pre> elements
+      pres = getNodeSet(doc, "//pre")
+      txt = xmlValue(pres[[1]])
+      els = strsplit(txt, "\r\n")[[1]]   
+    } 
+    
+    if (is.null(file)) return(els)
+    # Write the lines as a text file.
+    writeLines(els, con = file)
+    
+  } #end of function
+
+```
+

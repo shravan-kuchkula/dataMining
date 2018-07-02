@@ -1,0 +1,1007 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{CaseStudy8\_CherryBlossomData\_Finalv1}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+     "Modeling Runners' Times in the Cherry Blossom Race, CaseStudy 8"
+
+\textbf{Kevin Okiah, Shravan Kuchkula}
+
+\textbf{06/30/2018}
+
+    \textbf{NOTE}
+
+We are answering Question 10
+
+We have seen that the 1999 runners were typically older than the 2012
+runners. Compare the age distribution of the runners across all 14 years
+of the races. Use quantile-quantile plots, boxplots, and density curves
+to make your comparisons. How do the distributions change over the
+years? Was it a gradual change?"
+
+    \subsection{Abstract}\label{abstract}
+
+    In this case study, Cherry Blossom Ten Mile Run race results from 1999
+to 2012 are used to study how the age distribution of the runners
+changes over the years. The focus of the study is parsing data publicly
+available in the Web and then getting that data into the correct format
+to be used for analysis. To explore how age distributions change over
+the years, several plots are used to compare them for all runners across
+14 years. Close attention is paid first to formatting the data as what
+information is recorded and how the data is formatted changes year after
+year.
+
+After successful data acquisition into data frames of race results in R,
+results are analyzed and compared using density curves,
+quantile-quantile plots, and boxplots. In this way, we are able to
+visualize the data for tens of thousands of observations to the examine
+age distribution.
+
+    \subsection{Introduction}\label{introduction}
+
+    In this era of `free and ubiquitous data,' there is tremendous potential
+in seeking out data to bring insight to a problem we are working on
+professionally or to a topic of personal interest. For example, we are
+interested in understanding how the age distribution of runners changes
+over the years. One source of data about this comes from road races.
+Hundreds of thousands of people participate in road races each year; the
+race organizers collect information about the runners' times and often
+publish individual-level data on the Web. These freely accessible data
+may provide us with insights to our question about age distribution.
+
+One example of the many annual road races is the Cherry Blossom Ten Mile
+Run held in Washington D.C. in early April when the cherry trees are
+typically in bloom. The Cherry Blossom started in 1973 as a training run
+for elite runners who were plan- ning to compete in the Boston Marathon.
+It has since grown in popularity and in 2012 nearly 17,000 runners
+ranging in age from 9 to 89 participated. After each year's race, the
+organizers publish the results at http://www.cherryblossom.org/. These
+data offer a tremendous resource for learning about how the age
+distribution changes over the years.
+
+    \subsection{Methods}\label{methods}
+
+    The steps used for this analysis were: * data acquisition; * data
+cleanup and outlier removal; * density curves analysis; *
+quantile-quantile plots analysis; * boxplots analysis.
+
+    \begin{itemize}
+\tightlist
+\item
+  \textbf{Data acquisition}
+\end{itemize}
+
+    The methods provided in the Data Science in R text were utilized to load
+runners from 1999 to 2012. We have excluded the scraping process from
+this analysis as we leveraged the working code provided by Prof. Slater
+and the data is loaded using an external \texttt{SourceAndCleanData.R}
+to source men's data and \texttt{SourceAndCleanData\_Women.R} to source
+women's data which allows us to focus on our analysis of age
+distributions, what question 10 calls for.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{} load required packages}
+         pacman\PY{o}{::}p\PYZus{}load\PY{p}{(}pacman\PY{p}{,}plotly\PY{p}{,}ggplot2\PY{p}{,} dplyr\PY{p}{,}formattable\PY{p}{)}\PY{c+c1}{\PYZsh{}, plyr)}
+\end{Verbatim}
+
+#Sourcing data from the web. We have commented this out 
+source('SourceAndCleanData.R', echo = FALSE)
+source('SourceAndCleanData_Women.R', echo = FALSE)
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{k+kp}{load}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{cbMen.rda\PYZdq{}}\PY{p}{)}
+         \PY{k+kp}{load}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{cbWomen.rda\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    After scraping the data for male and female runners from the website and
+creating the dataframes, both the dataframes are merged to facilitate
+analysis of age distribution for all the runners.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{c+c1}{\PYZsh{}merge the two datasets}
+         merged\PY{o}{\PYZlt{}\PYZhy{}}\PY{k+kp}{rbind}\PY{p}{(}cbMen\PY{p}{,} cbWomen\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{itemize}
+\tightlist
+\item
+  ** Data Cleanup and Outlier Removal**
+\end{itemize}
+
+    Before proceeding with the analysis of age distribution, the dataset is
+cleaned by converting the char types to factors; handling missing data
+and removing outliers.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{c+c1}{\PYZsh{}update the column types}
+         merged\PY{o}{\PYZdl{}}sex\PY{o}{\PYZlt{}\PYZhy{}}\PY{k+kp}{as.factor}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{p}{)}
+         merged\PY{o}{\PYZdl{}}home\PY{o}{\PYZlt{}\PYZhy{}}\PY{k+kp}{as.factor}\PY{p}{(}merged\PY{o}{\PYZdl{}}home\PY{p}{)}
+         merged\PY{o}{\PYZdl{}}name\PY{o}{\PYZlt{}\PYZhy{}}\PY{k+kp}{as.factor}\PY{p}{(}merged\PY{o}{\PYZdl{}}name\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}merged\PYZdl{}runTime\PYZlt{}\PYZhy{}as.numeric(merged\PYZdl{}runTime)}
+\end{Verbatim}
+
+
+    \begin{quote}
+\textbf{\emph{Missing Data}}
+\end{quote}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{k+kp}{print}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Summary Statistics\PYZdq{}}\PY{p}{)}
+         \PY{k+kp}{summary}\PY{p}{(}merged\PY{p}{)}
+         \PY{k+kp}{print}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Missing Values Summary\PYZdq{}}\PY{p}{)}
+         na\PYZus{}count \PY{o}{\PYZlt{}\PYZhy{}}\PY{k+kp}{lapply}\PY{p}{(}merged\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}y\PY{p}{)} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{length}\PY{p}{(}\PY{k+kp}{which}\PY{p}{(}\PY{k+kp}{is.na}\PY{p}{(}y\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         na\PYZus{}count \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kt}{data.frame}\PY{p}{(}na\PYZus{}count\PY{p}{)}
+         na\PYZus{}count
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] "Summary Statistics"
+
+    \end{Verbatim}
+
+    
+    \begin{verbatim}
+      year      sex                            name       
+ Min.   :1999   F:70141   Michael Smith          :    17  
+ 1st Qu.:2004   M:70070   David Smith            :    14  
+ Median :2008             Jennifer Johnson       :    14  
+ Mean   :2007             John Kelly             :    14  
+ 3rd Qu.:2010             Michael Brown          :    14  
+ Max.   :2012             Brian Murphy           :    12  
+                          (Other)                :140126  
+                    home             age           runTime      
+ Washington DC        : 10732   Min.   : 0.00   Min.   :  1.00  
+ Washington DC        : 10195   1st Qu.:28.00   1st Qu.: 80.30  
+ Arlington VA         :  6403   Median :34.00   Median : 90.97  
+ Arlington VA         :  5570   Mean   :36.23   Mean   : 89.22  
+ Alexandria VA        :  3855   3rd Qu.:43.00   3rd Qu.:101.55  
+ Alexandria VA        :  2587   Max.   :89.00   Max.   :177.52  
+ (Other)              :100869   NA's   :44      NA's   :8400    
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] "Missing Values Summary"
+
+    \end{Verbatim}
+
+    \begin{tabular}{r|llllll}
+ year & sex & name & home & age & runTime\\
+\hline
+	 0    & 0    & 0    & 0    & 44   & 8400\\
+\end{tabular}
+
+
+    
+    A quick summary on the data gives us some insight into the data. We note
+the existence of Missing observations in \texttt{age} and
+\texttt{runtime}. 44 observations have missing age. These records are
+not useful for visualizing age distributions, and thus removed from the
+dataframe. Using \texttt{complete.cases} the observations which do not
+have age have been removed.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{k+kp}{print}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Data  Missing Values\PYZdq{}}\PY{p}{)}
+         \PY{k+kp}{print}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}merged\PY{p}{)}\PY{p}{)}
+         merged\PY{o}{\PYZlt{}\PYZhy{}}merged\PY{p}{[}complete.cases\PY{p}{(}merged\PY{o}{\PYZdl{}}age\PY{p}{)}\PY{p}{,} \PY{p}{]}
+         
+         \PY{k+kp}{print}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Clean data: \PYZdq{}}\PY{p}{)}
+         \PY{k+kp}{print}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}merged\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] "Data  Missing Values"
+[1] 140211
+[1] "Clean data: "
+[1] 140167
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{k+kp}{head}\PY{p}{(}merged\PY{p}{)}
+         \PY{k+kp}{tail}\PY{p}{(}merged\PY{p}{)}
+         \PY{k+kp}{print}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Missing Values Summary\PYZdq{}}\PY{p}{)}
+         na\PYZus{}count \PY{o}{\PYZlt{}\PYZhy{}}\PY{k+kp}{lapply}\PY{p}{(}merged\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}y\PY{p}{)} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{length}\PY{p}{(}\PY{k+kp}{which}\PY{p}{(}\PY{k+kp}{is.na}\PY{p}{(}y\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         na\PYZus{}count \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kt}{data.frame}\PY{p}{(}na\PYZus{}count\PY{p}{)}
+         na\PYZus{}count
+         \PY{k+kp}{summary}\PY{p}{(}merged\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|llllll}
+  & year & sex & name & home & age & runTime\\
+\hline
+	1999.1 & 1999                   & M                      & Worku Bikila           & Ethiopia               & 28                     & 46.98333              \\
+	1999.2 & 1999                   & M                      & Lazarus Nyakeraka      & Kenya                  & 24                     & 47.01667              \\
+	1999.3 & 1999                   & M                      & James Kariuki          & Kenya                  & 27                     & 47.05000              \\
+	1999.4 & 1999                   & M                      & William Kiptum         & Kenya                  & 28                     & 47.11667              \\
+	1999.5 & 1999                   & M                      & Joseph Kimani          & Kenya                  & 26                     & 47.51667              \\
+	1999.6 & 1999                   & M                      & Josphat Machuka        & Kenya                  & 25                     & 47.55000              \\
+\end{tabular}
+
+
+    
+    \begin{tabular}{r|llllll}
+  & year & sex & name & home & age & runTime\\
+\hline
+	2012.9025 & 2012                    & F                       & Monica Carmean          & Washington DC           & 25                      & 144.7500               \\
+	2012.9026 & 2012                    & F                       & Erin Grandstaff         & Chevy Chase MD          & 28                      & 144.7500               \\
+	2012.9027 & 2012                    & F                       & Catherine Hanmer        & Astoria NY              & 36                      & 146.7500               \\
+	2012.9028 & 2012                    & F                       & Kat Silvia              & Lisle IL                & 27                      & 146.8500               \\
+	2012.9029 & 2012                    & F                       & Tram Anh Tran           & Fairfax VA              & 30                      & 150.5667               \\
+	2012.9030 & 2012                    & F                       & Margie Rodan            & Potomac MD              & 53                      & 152.2667               \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] "Missing Values Summary"
+
+    \end{Verbatim}
+
+    \begin{tabular}{r|llllll}
+ year & sex & name & home & age & runTime\\
+\hline
+	 0    & 0    & 0    & 0    & 0    & 8399\\
+\end{tabular}
+
+
+    
+    
+    \begin{verbatim}
+      year      sex                            name       
+ Min.   :1999   F:70120   Michael Smith          :    17  
+ 1st Qu.:2004   M:70047   David Smith            :    14  
+ Median :2008             Jennifer Johnson       :    14  
+ Mean   :2007             John Kelly             :    14  
+ 3rd Qu.:2010             Michael Brown          :    14  
+ Max.   :2012             Brian Murphy           :    12  
+                          (Other)                :140082  
+                    home             age           runTime      
+ Washington DC        : 10732   Min.   : 0.00   Min.   :  1.00  
+ Washington DC        : 10186   1st Qu.:28.00   1st Qu.: 80.30  
+ Arlington VA         :  6400   Median :34.00   Median : 90.97  
+ Arlington VA         :  5569   Mean   :36.23   Mean   : 89.22  
+ Alexandria VA        :  3854   3rd Qu.:43.00   3rd Qu.:101.55  
+ Alexandria VA        :  2587   Max.   :89.00   Max.   :177.52  
+ (Other)              :100839                   NA's   :8399    
+    \end{verbatim}
+
+    
+    Our resulting dataset with complete cases has 140167 observations.
+
+    From the summary statistics above, we also notice a pretty small runtime
+of 1 which is likely either due to a non-starter or a data entry error.
+Digging into the runtime variable, we have 4312 obsevations with a
+runtime of \textless{}3. Taking a closer look , all this happens for
+year 2006 women data except for one from the Mens data. Since the focus
+of our analysis is change in age of the participants over the duration
+of the competition 1999-2012, we decide not to do cleaning or further
+analysis on the runTime parameter.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{c+c1}{\PYZsh{} showing runtime values less than 30}
+         \PY{k+kp}{head}\PY{p}{(}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}runTime\PY{o}{\PYZlt{}}\PY{l+m}{30}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{)}
+         \PY{k+kp}{nrow}\PY{p}{(}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}runTime\PY{o}{\PYZlt{}}\PY{l+m}{30}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|llllll}
+  & year & sex & name & home & age & runTime\\
+\hline
+	2001.2250 & 2001                    & M                       & Peter HUI               & Silver Spring MD        & 70                      & 1.5                    \\
+	2006.15100 & 2006                    & F                       & Vanessa Hunter          & Arlington VA            & 29                      & 1.0                    \\
+	2006.16100 & 2006                    & F                       & Laura Turner            & Washington DC           & 24                      & 1.0                    \\
+	2006.17100 & 2006                    & F                       & Lisa Thomas             & Alexandria VA           & 29                      & 1.0                    \\
+	2006.18100 & 2006                    & F                       & Diana Pool              & Westminster MD          & 24                      & 1.0                    \\
+	2006.19100 & 2006                    & F                       & Ann Reed                & Columbia MD             & 31                      & 1.0                    \\
+\end{tabular}
+
+
+    
+    4312
+
+    
+    \begin{quote}
+\textbf{Outliers}
+\end{quote}
+
+    Looking at the age variable we note that few observations are below the
+age of 10. Although there could be a young child in the run, there are
+several of these values with an age between 0 and 4 which looks pretty
+odd. For the sake of narrowing our analysis to the general population,
+We decide to set our lower age limit at 10 years old to describe general
+population.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} par\PY{p}{(}mfrow\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{2}\PY{p}{)}\PY{p}{)}
+         \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         boxplot\PY{p}{(}age\PY{o}{\PYZti{}}year\PY{p}{,}data\PY{o}{=}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZdq{}}\PY{l+s}{M\PYZdq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{,} main\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{MEN: Cherry Blossom Age of runners by year with outliers\PYZdq{}}\PY{p}{,} xlab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Year\PYZdq{}}\PY{p}{,} ylab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Age\PYZdq{}}\PY{p}{)}
+         boxplot\PY{p}{(}age\PY{o}{\PYZti{}}year\PY{p}{,}data\PY{o}{=}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZdq{}}\PY{l+s}{F\PYZdq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{,} main\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{WOMEN: Cherry Blossom Age of runners by year with outliers\PYZdq{}}\PY{p}{,} xlab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Year\PYZdq{}}\PY{p}{,} ylab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Age\PYZdq{}}\PY{p}{)}
+         
+         merged\PY{o}{\PYZlt{}\PYZhy{}}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}age \PY{o}{\PYZgt{}} \PY{l+m}{10}\PY{p}{)}\PY{p}{,} \PY{p}{]}
+         boxplot\PY{p}{(}age\PY{o}{\PYZti{}}year\PY{p}{,}data\PY{o}{=}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZdq{}}\PY{l+s}{M\PYZdq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{,} main\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{MEN:Cherry Blossom Age of runners by year Clean\PYZdq{}}\PY{p}{,} xlab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Year\PYZdq{}}\PY{p}{,} ylab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Age\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}merged\PYZlt{}\PYZhy{}merged[which(merged\PYZdl{}age \PYZgt{} 10), ]}
+         boxplot\PY{p}{(}age\PY{o}{\PYZti{}}year\PY{p}{,}data\PY{o}{=}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZdq{}}\PY{l+s}{F\PYZdq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{,} main\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{WOMEN:Cherry Blossom Age of runners by year Clean\PYZdq{}}\PY{p}{,} xlab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Year\PYZdq{}}\PY{p}{,} ylab\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Age\PYZdq{}}\PY{p}{)}
+         
+         \PY{k+kp}{print}\PY{p}{(}\PY{k+kp}{nrow}\PY{p}{(}merged\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1] 140152
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Having removed the few outliers, our final dataset has 140152
+observations. Next we move to our analysis of age distributions for each
+year.
+
+    \begin{itemize}
+\tightlist
+\item
+  \textbf{density curves analysis}
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{k+kp}{summary}\PY{p}{(}merged\PY{o}{\PYZdl{}}age\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  11.00   28.00   34.00   36.23   43.00   89.00 
+    \end{verbatim}
+
+    
+    Beginining with simple statistcs, we note mean of 36.23 and a median of
+34 for age. The mean being larger than a median indicates a potential
+right skewed distribution. Below we proceed to group age into bins of
+decades (10-20, 20-30, 30-40, 40-50, 50-60, 60-70, 70-80 and 80-90) for
+easy vizualization of how age group varies. Visualizing the binned ages,
+we are able to confirm a conclusion from the mean and median comparisons
+where the age distribution has a larger tail extending from the 30 to 90
+compared to that from 30 to 10 for both genders. Majority of the
+participants fall in the 30-40 age group for men and 20-30 for women.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} merged\PY{o}{\PYZdl{}}ageCat \PY{o}{=} \PY{k+kp}{cut}\PY{p}{(}merged\PY{o}{\PYZdl{}}age\PY{p}{,} breaks \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{k+kp}{seq}\PY{p}{(}\PY{l+m}{10}\PY{p}{,} \PY{l+m}{80}\PY{p}{,} \PY{l+m}{10}\PY{p}{)}\PY{p}{,} \PY{l+m}{90}\PY{p}{)}\PY{p}{)}
+         \PY{k+kp}{head}\PY{p}{(}merged\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|lllllll}
+  & year & sex & name & home & age & runTime & ageCat\\
+\hline
+	1999.1 & 1999                   & M                      & Worku Bikila           & Ethiopia               & 28                     & 46.98333               & (20,30{]}             \\
+	1999.2 & 1999                   & M                      & Lazarus Nyakeraka      & Kenya                  & 24                     & 47.01667               & (20,30{]}             \\
+	1999.3 & 1999                   & M                      & James Kariuki          & Kenya                  & 27                     & 47.05000               & (20,30{]}             \\
+	1999.4 & 1999                   & M                      & William Kiptum         & Kenya                  & 28                     & 47.11667               & (20,30{]}             \\
+	1999.5 & 1999                   & M                      & Joseph Kimani          & Kenya                  & 26                     & 47.51667               & (20,30{]}             \\
+	1999.6 & 1999                   & M                      & Josphat Machuka        & Kenya                  & 25                     & 47.55000               & (20,30{]}             \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} ageCat \PY{o}{=} \PY{k+kp}{cut}\PY{p}{(}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZsq{}}\PY{l+s}{M\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{o}{\PYZdl{}}age\PY{p}{,} breaks \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{k+kp}{seq}\PY{p}{(}\PY{l+m}{10}\PY{p}{,} \PY{l+m}{80}\PY{p}{,} \PY{l+m}{10}\PY{p}{)}\PY{p}{,} \PY{l+m}{90}\PY{p}{)}\PY{p}{)}
+         
+         bins\PY{o}{=}\PY{k+kp}{as.data.frame}\PY{p}{(}\PY{k+kp}{table}\PY{p}{(}ageCat\PY{p}{)}\PY{p}{)}
+         
+         bins.p \PY{o}{\PYZlt{}\PYZhy{}}ggplot\PY{p}{(}bins\PY{p}{,} aes\PY{p}{(}x\PY{o}{=}ageCat\PY{p}{,} y\PY{o}{=}Freq\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}bar\PY{p}{(}stat\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{identity\PYZdq{}}\PY{p}{)}\PY{o}{+}\PY{c+c1}{\PYZsh{}facet\PYZus{}wrap(\PYZti{}as.factor(merged\PYZdl{}sex), nrow=2)}
+                 ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Men\PYZsq{}s Frequency of Age groups\PYZdq{}}\PY{p}{)}
+         \PY{k+kp}{suppressMessages}\PY{p}{(}bins.p\PY{o}{\PYZlt{}\PYZhy{}}ggplotly\PY{p}{(}bins.p\PY{p}{)}\PY{p}{)}
+         bins.p
+         
+         ageCat \PY{o}{=} \PY{k+kp}{cut}\PY{p}{(}merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZsq{}}\PY{l+s}{F\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{o}{\PYZdl{}}age\PY{p}{,} breaks \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{k+kp}{seq}\PY{p}{(}\PY{l+m}{10}\PY{p}{,} \PY{l+m}{80}\PY{p}{,} \PY{l+m}{10}\PY{p}{)}\PY{p}{,} \PY{l+m}{90}\PY{p}{)}\PY{p}{)}
+         
+         bins\PY{o}{=}\PY{k+kp}{as.data.frame}\PY{p}{(}\PY{k+kp}{table}\PY{p}{(}ageCat\PY{p}{)}\PY{p}{)}
+         
+         bins.p \PY{o}{\PYZlt{}\PYZhy{}}ggplot\PY{p}{(}bins\PY{p}{,} aes\PY{p}{(}x\PY{o}{=}ageCat\PY{p}{,} y\PY{o}{=}Freq\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}bar\PY{p}{(}stat\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{identity\PYZdq{}}\PY{p}{)}\PY{o}{+}\PY{c+c1}{\PYZsh{}facet\PYZus{}wrap(\PYZti{}as.factor(merged\PYZdl{}sex), nrow=2)}
+                 ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Women\PYZsq{}s Frequency of Age groups\PYZdq{}}\PY{p}{)}
+         \PY{k+kp}{suppressMessages}\PY{p}{(}bins.p\PY{o}{\PYZlt{}\PYZhy{}}ggplotly\PY{p}{(}bins.p\PY{p}{)}\PY{p}{)}
+         bins.p
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+HTML widgets cannot be represented in plain text (need html)
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+HTML widgets cannot be represented in plain text (need html)
+    \end{verbatim}
+
+    
+    We are also interested in how the age demographics of runners changes
+with years. To achieve that we used stacked density plots shown below
+using ggplot and plotly libraries. Each colored density is an age
+distribution for a given year color coded as per the key.
+
+On the density curves below, we observe the curves shift positions
+gradually from right to left and density skewness elongates as we
+progress from 1999 to 2012. This shift in density plot indicates that
+there is a general decrease in mean age of particants in 1999 compared
+to that of later years. This gradual decrease in age applies to both Men
+and Women.
+
+Although the mean distribution is shifting left, it is apparent that
+participation amongst the age groups above 40 have not significantly
+decreased. Because of this, we begin seeing the right-skew distribution
+increase in the most recent years of the race.
+
+Since we used plotly below, we can interactively explore the data and
+even select a specific year to narrow you research to by clicking the
+year on the key.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         merged\PY{o}{\PYZdl{}}year \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{as.character}\PY{p}{(}merged\PY{o}{\PYZdl{}}year\PY{p}{)}
+         age.d \PY{o}{=} ggplot\PY{p}{(}merged\PY{p}{,} aes\PY{p}{(}age\PY{p}{,} fill \PY{o}{=} \PY{k+kp}{factor}\PY{p}{(}year\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}density\PY{p}{(}col\PY{o}{=}\PY{k+kc}{NA}\PY{p}{,} alpha\PY{o}{=}\PY{l+m}{0.15}\PY{p}{)} \PY{o}{+} theme\PYZus{}light\PY{p}{(}\PY{p}{)} \PY{o}{+} 
+                 scale\PYZus{}x\PYZus{}continuous\PY{p}{(}breaks \PY{o}{=} \PY{k+kp}{pretty}\PY{p}{(}merged\PY{o}{\PYZdl{}}age\PY{p}{,} n \PY{o}{=} \PY{l+m}{10}\PY{p}{)}\PY{p}{)}\PY{o}{+}facet\PYZus{}wrap\PY{p}{(}\PY{o}{\PYZti{}}\PY{k+kp}{as.factor}\PY{p}{(}sex\PY{p}{)}\PY{p}{,} nrow\PY{o}{=}\PY{l+m}{2}\PY{p}{)}\PY{o}{+}
+                 ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Density plot of Age by Year\PYZdq{}}\PY{p}{)}
+         age.d \PY{o}{=} \PY{k+kp}{suppressMessages}\PY{p}{(}ggplotly\PY{p}{(}age.d\PY{p}{)}\PY{p}{)}
+         age.d
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+HTML widgets cannot be represented in plain text (need html)
+    \end{verbatim}
+
+    
+    Across the board,Men participating in the race are much older than the
+women in the race as depicted by the means of the density plots.
+
+We verify our observations from visual inspection of density plots which
+indicates that the core demographic for participating runners is
+decreasing year after year by generating mean summary plot below.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} temp\PY{o}{\PYZlt{}\PYZhy{}}merged\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         select\PY{p}{(}age\PY{p}{,}sex\PY{p}{,} year\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         group\PYZus{}by\PY{p}{(}sex\PY{p}{,}year\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         summarise\PY{p}{(}AvgAge \PY{o}{=}\PY{k+kp}{mean}\PY{p}{(}age\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         age.l\PY{o}{=}ggplot\PY{p}{(}data\PY{o}{=}temp\PY{p}{,} aes\PY{p}{(}x\PY{o}{=}year\PY{p}{,} y\PY{o}{=}AvgAge\PY{p}{,} group\PY{o}{=}sex\PY{p}{,} shape\PY{o}{=}sex\PY{p}{,} color\PY{o}{=}sex\PY{p}{)}\PY{p}{)} \PY{o}{+}
+             geom\PYZus{}line\PY{p}{(}\PY{p}{)} \PY{o}{+}
+             geom\PYZus{}point\PY{p}{(}\PY{p}{)}\PY{o}{+}
+             ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Mean Age line plot. Men vs Women\PYZdq{}}\PY{p}{)}
+         
+         age.l \PY{o}{=} \PY{k+kp}{suppressMessages}\PY{p}{(}ggplotly\PY{p}{(}age.l\PY{p}{)}\PY{p}{)}
+         age.l
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+HTML widgets cannot be represented in plain text (need html)
+    \end{verbatim}
+
+    
+    The overall mean age line plot, confirms the same observation, that
+there is a gradual decrease in the ages of the runners with the lowest
+being 2010.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} temp1\PY{o}{\PYZlt{}\PYZhy{}}merged\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         select\PY{p}{(}age\PY{p}{,} year\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         group\PYZus{}by\PY{p}{(}year\PY{p}{)}\PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}}
+         summarise\PY{p}{(}AvgAge \PY{o}{=}\PY{k+kp}{mean}\PY{p}{(}age\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}65}]:} \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         age.2\PY{o}{=}ggplot\PY{p}{(}data\PY{o}{=}temp1\PY{p}{,} aes\PY{p}{(}x\PY{o}{=}year\PY{p}{,} y\PY{o}{=}AvgAge\PY{p}{,} group\PY{o}{=}\PY{l+m}{1}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+             geom\PYZus{}line\PY{p}{(}color\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{red\PYZdq{}}\PY{p}{)} \PY{o}{+}
+             geom\PYZus{}point\PY{p}{(}color\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{blue\PYZdq{}}\PY{p}{)} \PY{o}{+}
+             ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Mean Age line plot for both genders\PYZdq{}}\PY{p}{)}
+         
+         age.2 \PY{o}{=} \PY{k+kp}{suppressMessages}\PY{p}{(}ggplotly\PY{p}{(}age.2\PY{p}{)}\PY{p}{)}
+         age.2
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+HTML widgets cannot be represented in plain text (need html)
+    \end{verbatim}
+
+    
+    \begin{itemize}
+\tightlist
+\item
+  \textbf{quantile-quantile plots analysis}
+\end{itemize}
+
+A quantile-quantile plot can be used to assess if the age distributions
+come from some theoritical distribution such as Normal distribution or
+exponential. This is a quick way to compare the age distributions across
+all the years and will help one answer if all the years had a similar
+age distribution or not. For instance, looking at the
+\texttt{QQ\ plot\ of\ Age\ by\ Year\ -\ Male}, one can see that from the
+year 2006 to 2012 the points below the 25th quartile do not seem to form
+a straight line. This indicates that more number of runners' age was
+below the 25th quartile.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} pacman\PY{o}{::}p\PYZus{}load\PY{p}{(}plyr\PY{p}{)}
+         \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         cbMenQQ \PY{o}{\PYZlt{}\PYZhy{}} ddply\PY{p}{(}\PY{l+m}{.}data \PY{o}{=} merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZsq{}}\PY{l+s}{M\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{,} \PY{l+m}{.}variables \PY{o}{=} \PY{l+m}{.}\PY{p}{(}year\PY{p}{)}\PY{p}{,}
+                               \PY{k+kr}{function}\PY{p}{(}dsub\PY{p}{)}\PY{p}{\PYZob{}}
+                                   q \PY{o}{\PYZlt{}\PYZhy{}} qqnorm\PY{p}{(}dsub\PY{o}{\PYZdl{}}age\PY{p}{,} plot \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)}
+                                   dsub\PY{o}{\PYZdl{}}xq \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{q}\PY{o}{\PYZdl{}}x
+                                   dsub
+                               \PY{p}{\PYZcb{}}\PY{p}{)}
+         
+         age.qq \PY{o}{=} ggplot\PY{p}{(}data \PY{o}{=} cbMenQQ\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} xq\PY{p}{,} y \PY{o}{=} age\PY{p}{,} color \PY{o}{=} year\PY{p}{)}\PY{p}{)} \PY{o}{+}
+                         geom\PYZus{}point\PY{p}{(}alpha\PY{o}{=}\PY{l+m}{0.25}\PY{p}{)} \PY{o}{+}
+                         geom\PYZus{}smooth\PY{p}{(}method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{lm\PYZdq{}}\PY{p}{,} se \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)} \PY{o}{+}facet\PYZus{}wrap\PY{p}{(}\PY{o}{\PYZti{}}\PY{k+kp}{as.factor}\PY{p}{(}year\PY{p}{)}\PY{p}{,} nrow\PY{o}{=}\PY{l+m}{4}\PY{p}{)}\PY{o}{+}
+                         xlab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Normal Theoretical Quantiles\PYZdq{}}\PY{p}{)} \PY{o}{+}
+                         ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Normal Data Quantiles\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                         ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{QQ plot of Age by Year \PYZhy{} Male\PYZdq{}}\PY{p}{)}
+         age.qq
+         \PY{k+kn}{detach}\PY{p}{(}package\PY{o}{:}plyr\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Similarly, QQ-plots have been compared for women's data over the years.
+Interesting observersation here is that unlike the men's QQ-plots, the
+women runner's ages tend to follow similar distributions except for 1999
+and 2000.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}46}]:} pacman\PY{o}{::}p\PYZus{}load\PY{p}{(}plyr\PY{p}{)}
+         \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         cbMenQQ \PY{o}{\PYZlt{}\PYZhy{}} ddply\PY{p}{(}\PY{l+m}{.}data \PY{o}{=} merged\PY{p}{[}\PY{k+kp}{which}\PY{p}{(}merged\PY{o}{\PYZdl{}}sex\PY{o}{==}\PY{l+s}{\PYZsq{}}\PY{l+s}{F\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{p}{]}\PY{p}{,} \PY{l+m}{.}variables \PY{o}{=} \PY{l+m}{.}\PY{p}{(}year\PY{p}{)}\PY{p}{,}
+                               \PY{k+kr}{function}\PY{p}{(}dsub\PY{p}{)}\PY{p}{\PYZob{}}
+                                   q \PY{o}{\PYZlt{}\PYZhy{}} qqnorm\PY{p}{(}dsub\PY{o}{\PYZdl{}}age\PY{p}{,} plot \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)}
+                                   dsub\PY{o}{\PYZdl{}}xq \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{q}\PY{o}{\PYZdl{}}x
+                                   dsub
+                               \PY{p}{\PYZcb{}}\PY{p}{)}
+         
+         age.qq \PY{o}{=} ggplot\PY{p}{(}data \PY{o}{=} cbMenQQ\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} xq\PY{p}{,} y \PY{o}{=} age\PY{p}{,} color \PY{o}{=} year\PY{p}{)}\PY{p}{)} \PY{o}{+}
+                         geom\PYZus{}point\PY{p}{(}alpha\PY{o}{=}\PY{l+m}{0.25}\PY{p}{)} \PY{o}{+}
+                         geom\PYZus{}smooth\PY{p}{(}method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{lm\PYZdq{}}\PY{p}{,} se \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)} \PY{o}{+}facet\PYZus{}wrap\PY{p}{(}\PY{o}{\PYZti{}}\PY{k+kp}{as.factor}\PY{p}{(}year\PY{p}{)}\PY{p}{,} nrow\PY{o}{=}\PY{l+m}{4}\PY{p}{)}\PY{o}{+}
+                         xlab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Normal Theoretical Quantiles\PYZdq{}}\PY{p}{)} \PY{o}{+}
+                         ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Normal Data Quantiles\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                         ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{QQ plot of Age by Year \PYZhy{} Female\PYZdq{}}\PY{p}{)}
+         age.qq
+         \PY{k+kn}{detach}\PY{p}{(}package\PY{o}{:}plyr\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_46_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The QQ-plots for both men and women when combined and compared, show the
+general trend in the distribution - which is, that since 2004 there has
+been a gradual decrease in the ages of runners.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} pacman\PY{o}{::}p\PYZus{}load\PY{p}{(}plyr\PY{p}{)}
+         \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         cbMFQQ \PY{o}{\PYZlt{}\PYZhy{}} ddply\PY{p}{(}\PY{l+m}{.}data \PY{o}{=} merged\PY{p}{,} \PY{l+m}{.}variables \PY{o}{=} \PY{l+m}{.}\PY{p}{(}year\PY{p}{)}\PY{p}{,}
+                               \PY{k+kr}{function}\PY{p}{(}dsub\PY{p}{)}\PY{p}{\PYZob{}}
+                                   q \PY{o}{\PYZlt{}\PYZhy{}} qqnorm\PY{p}{(}dsub\PY{o}{\PYZdl{}}age\PY{p}{,} plot \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)}
+                                   dsub\PY{o}{\PYZdl{}}xq \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{q}\PY{o}{\PYZdl{}}x
+                                   dsub
+                               \PY{p}{\PYZcb{}}\PY{p}{)}
+         
+         age.qq \PY{o}{=} ggplot\PY{p}{(}data \PY{o}{=} cbMFQQ\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} xq\PY{p}{,} y \PY{o}{=} age\PY{p}{,} color \PY{o}{=} year\PY{p}{)}\PY{p}{)} \PY{o}{+}
+                         geom\PYZus{}point\PY{p}{(}alpha\PY{o}{=}\PY{l+m}{0.25}\PY{p}{)} \PY{o}{+}
+                         geom\PYZus{}smooth\PY{p}{(}method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{lm\PYZdq{}}\PY{p}{,} se \PY{o}{=} \PY{k+kc}{FALSE}\PY{p}{)} \PY{o}{+}facet\PYZus{}wrap\PY{p}{(}\PY{o}{\PYZti{}}\PY{k+kp}{as.factor}\PY{p}{(}year\PY{p}{)}\PY{p}{,} nrow\PY{o}{=}\PY{l+m}{4}\PY{p}{)}\PY{o}{+}
+                         xlab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Normal Theoretical Quantiles\PYZdq{}}\PY{p}{)} \PY{o}{+}
+                         ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Normal Data Quantiles\PYZdq{}}\PY{p}{)}\PY{o}{+}
+                         ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{QQ plot of Age by Year \PYZhy{} Female and Male\PYZdq{}}\PY{p}{)}
+         age.qq
+         \PY{k+kn}{detach}\PY{p}{(}package\PY{o}{:}plyr\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_48_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{itemize}
+\tightlist
+\item
+  \textbf{boxplots analysis}
+\end{itemize}
+
+Density plots and QQ-plots do not give the complete picture of the
+spread of the age distributions with a particular year. This can be
+achieved using a Box-plot.
+
+Side-by-Side boxplots are a great way to compare the spread of the age
+distributions for all the years. From the plots below it is easy to
+access the spread of the ages for each year broken down by gender.
+
+Some key observations can be made from these plots. The age-range of
+male runners is larger when compared with female runners, this trend
+wasn't evident with earlier plots. Second, and perhaps an amusing
+observation is that oldest female to participate in these events was in
+2006, whereas the oldest male to participate in this event is in 2012,
+both are outliers.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}68}]:} \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         bp.p \PY{o}{\PYZlt{}\PYZhy{}} ggplot\PY{p}{(}merged\PY{p}{,} aes\PY{p}{(}x\PY{o}{=}year\PY{p}{,} y\PY{o}{=}age\PY{p}{,} fill\PY{o}{=}year\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}boxplot\PY{p}{(}\PY{p}{)} \PY{o}{+}facet\PYZus{}wrap\PY{p}{(}\PY{o}{\PYZti{}}\PY{k+kp}{as.factor}\PY{p}{(}sex\PY{p}{)}\PY{p}{,} nrow\PY{o}{=}\PY{l+m}{2}\PY{p}{)} \PY{o}{+}
+         ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Boxplots of Age distributions over the years broken down by gender\PYZdq{}}\PY{p}{)} \PY{o}{+}
+         coord\PYZus{}flip\PY{p}{(}\PY{p}{)}
+         bp.p
+\end{Verbatim}
+
+
+    
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_50_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    A combined Box-plot shows that more and more young people are
+participating in this race.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}69}]:} \PY{k+kp}{options}\PY{p}{(}repr.plot.width\PY{o}{=}\PY{l+m}{10}\PY{p}{,} repr.plot.height\PY{o}{=}\PY{l+m}{8}\PY{p}{)}
+         bp.p \PY{o}{\PYZlt{}\PYZhy{}} ggplot\PY{p}{(}merged\PY{p}{,} aes\PY{p}{(}x\PY{o}{=}year\PY{p}{,} y\PY{o}{=}age\PY{p}{,} fill\PY{o}{=}year\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}boxplot\PY{p}{(}\PY{p}{)} \PY{o}{+}
+         ggtitle\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Boxplots of Age distributions over the years both genders combined\PYZdq{}}\PY{p}{)} \PY{o}{+}
+         coord\PYZus{}flip\PY{p}{(}\PY{p}{)}
+         bp.p
+\end{Verbatim}
+
+
+    
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_52_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Conclusion and Future
+Works}\label{conclusion-and-future-works}
+
+    From our analysis of age distribution across all years from 1999 to
+2012, the general population of both male and female race runners
+display right-skewed distribution with the highest frequency of runners
+falling into the 30-40 years age bin for Men and 20-30 age bin for
+Women.
+
+Using a stacked density plot to show a single curve for each year, there
+is a decrease in mean age from 1999 to recent years for both sexes. Our
+finding is supported by the average age line plot and box which shows
+the age of men steadily decreases from a mean of \textasciitilde{}40 to
+\textasciitilde{}37 while that of women decrease from a mean age of
+\textasciitilde{}35 to \textasciitilde{}32 across the years. The drop in
+mean age of men is quite significant compared to the drop in mean age of
+women. The mean age of participating Men continues to be higher than the
+mean of participating women from 1999 to 2012. The drop in age seems to
+have plateud in 2008. To that front, we can speculate the decrease will
+be slow moving forward, just as we have seen from 2008 to 2012.
+
+Our future works could extend to this analysis. It would include
+modeling performance metrics and age distributions using different
+visualizations.
+
+    \subsection{References}\label{references}
+
+{[}1{]} D. Lang and D. Nolan, Data Science in R: A Case Studies Approach
+to Computation Reasoning and Problem Solving. New York, New York: CRC
+Press.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
